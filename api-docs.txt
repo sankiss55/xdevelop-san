@@ -1,0 +1,67 @@
+DOCUMENTACION DE APIS 
+================================
+
+1. AUTENTICACION
+- POST /api/login: 
+  Propósito: Autenticar usuarios (estudiantes o administradores) en el sistema.
+  Función: Valida credenciales contra la base de datos, compara contraseñas con bcrypt
+           y genera un token JWT para mantener la sesión activa.
+  Entrada: {matricula, password}
+  Salida: {success, token, usuario, tipo}
+  
+- GET /api/verify:
+  Propósito: Verificar si el token de sesión del usuario sigue siendo válido.
+  Función: Decodifica y valida el token JWT enviado en el header Authorization.
+           Útil para proteger rutas y verificar permisos en el frontend.
+  Header: Authorization: Bearer <token>
+  Salida: {success, usuario}
+
+2. ESTUDIANTES
+- POST /api/estudiantes:
+  Propósito: Registrar nuevos estudiantes en la plataforma.
+  Función: Crea un usuario tipo 'estudiante' verificando que la matrícula y correo
+           sean únicos. Hashea la contraseña con bcrypt antes de guardarla.
+  Entrada: {nombre, apellidos, matricula, correo, password}
+  Validaciones: Matrícula única, correo único, todos los campos obligatorios
+  Salida: {success, message}
+  
+- PUT /api/estudiantes:
+  Propósito: Permitir la actualización de datos personales de un estudiante.
+  Función: Modifica nombre, apellidos y correo de un estudiante identificándolo
+           por su matrícula. Útil para que los alumnos corrijan su información.
+  Entrada: {nombre, apellidos, correo, matricula}
+  Salida: {success, data}
+
+3. LIBROS (CRUD
+- GET /api/libros:
+  Propósito: Mostrar el catálogo completo de libros disponibles en la biblioteca.
+  Función: Recupera todos los libros con sus datos básicos (id, titulo, autor,
+           identificador, genero, año). Útil para listados y búsquedas.
+  Entrada: ninguna
+  Salida: {success, libros: [{id, titulo, autor, identificador, genero, anio_publicacion}]}
+  
+- POST /api/libros:
+  Propósito: Agregar nuevos libros al catálogo (uso administrativo).
+  Función: Inserta un nuevo libro verificando que el identificador sea único.
+           Guarda quién lo registró y la fecha de creación.
+  Entrada: {titulo, autor, identificador, genero, anio_publicacion, id (usuario)}
+  Validaciones: Identificador único
+  Salida: {success, message}
+  
+- PUT /api/libros/[id]:
+  Propósito: Actualizar información de libros existentes (correcciones, ediciones).
+  Función: Modifica los datos de un libro específico verificando que no haya
+           conflictos con identificadores de otros libros.
+  Entrada: {titulo, autor, identificador, genero, anio_publicacion}
+  Validaciones: Libro existe, identificador único (excluyendo el mismo libro)
+  Salida: {success, message}
+  
+- DELETE /api/libros/[id]:
+  Propósito: Eliminar libros del catálogo (libros obsoletos, duplicados, errores).
+  Función: Borra permanentemente un libro de la base de datos usando su ID.
+  Entrada: ID en la URL
+  Validaciones: Libro existe
+  Salida: {success, message}
+
+NOTAS
+- Todas las peticiones usan JSON.
