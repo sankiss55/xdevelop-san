@@ -44,7 +44,7 @@ La documentación resumida de los endpoints de la API se encuentra en el archivo
 
 - Node.js 18 o superior
 - npm o yarn
-- Acceso a una base de datos MySQL (el archivo de la sql esta en la carpeta 'app/src/database')
+- Acceso a una base de datos MySQL (el archivo .sql de prueba está en la carpeta `app/src/`)
 
 ### Pasos para clonar y ejecutar
 
