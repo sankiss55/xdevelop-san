@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-  ],
+, "app/api/sample.js", "app/administrador/dashboard/page.jsx", "app/estudiante/dashboard/page.tsx"  ],
   "exclude": ["node_modules"]
 }
