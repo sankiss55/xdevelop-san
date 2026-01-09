@@ -17,7 +17,7 @@ export async function agregarLibro(formData: any, usuarioId: number) {
       method: "POST",
       body: JSON.stringify({
         ...formData,
-        id: usuarioId
+        id_user: usuarioId
       }),
     });
 
