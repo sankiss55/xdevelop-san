@@ -24,27 +24,76 @@ export async function GET(): Promise<NextResponse> {
   }
 }
 //Cambiar informacion del libro seleccionadopor el administrador
-export async function POST(params:NextRequest):Promise<NextResponse> {
-  try{
-    const {titulo,autor,identificador, genero,anio_publicacion, id}:Libro&{id:string}= await params.json();
-    const [busqueda]: any= await conn.execute("SELECT * FROM libros where identificador=?",[identificador]);
-    if (busqueda.length>0) {
-    throw new Error  (`El libro con el identificador "${identificador}" ya existe`);
-}
-const date=new Date()
-    await conn.execute("INSERT INTO libros (titulo, autor, identificador, genero, anio_publicacion, registrado_por, created_at, updated_at) VALUES( ?,?,?,?,?,?,?,?)", [titulo, autor,identificador,genero,anio_publicacion,id,date, date]);
+export async function POST(params: NextRequest): Promise<NextResponse> {
+  try {
+    const {
+      titulo,
+      autor,
+      identificador,
+      genero,
+      anio_publicacion,
+      id_user,
+    }: Libro & { id_user: number } = await params.json();
+
+    // Validación básica
+    if (
+      !titulo ||
+      !autor ||
+      !identificador ||
+      !genero ||
+      !anio_publicacion ||
+      !id_user
+    ) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Faltan campos obligatorios",
+        },
+        { status: 400 }
+      );
+    }
+
+    const [busqueda]: any = await conn.execute(
+      "SELECT id FROM libros WHERE identificador = ?",
+      [identificador]
+    );
+
+    if (busqueda.length > 0) {
+      throw new Error(
+        `El libro con el identificador "${identificador}" ya existe`
+      );
+    }
+
+    const date = new Date();
+
+    await conn.execute(
+      `INSERT INTO libros 
+      (titulo, autor, identificador, genero, anio_publicacion, registrado_por, created_at, updated_at) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        titulo,
+        autor,
+        identificador,
+        genero,
+        anio_publicacion,
+        id_user,
+        date,
+        date,
+      ]
+    );
+
     return NextResponse.json({
       success: true,
-    })
-  }catch(error){
-  return NextResponse.json(
-    {
-      success: false,
-      message: error instanceof Error
-        ? error.message
-        : "Error al subir el libro",
-    }
-  );
-}
-
+    });
+  } catch (error) {
+    return NextResponse.json(
+      {
+        success: false,
+        message:
+          error instanceof Error
+            ? error.message
+            : "Error al subir el libro",
+      }
+    );
   }
+}
