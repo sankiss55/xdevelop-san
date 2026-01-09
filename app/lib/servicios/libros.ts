@@ -11,11 +11,12 @@ export async function obtenerLibros() {
 }
 
 export async function crearLibro(libroData: any, idUsuario: number) {
+
   const response = await fetch("/api/libros", {
     method: "POST",
     body: JSON.stringify({
       ...libroData,
-      id: idUsuario
+      id_user: idUsuario
     }),
   });
 

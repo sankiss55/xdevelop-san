@@ -41,6 +41,7 @@ export async function POST(request:Request): Promise<NextResponse>{
         const tipo = usuario.tipo == "usuario" ? 'estudiante' : "admin";
 
         const token = generateToken({
+            id: usuario.id,
             matricula: usuario.matricula.toString(),
             nombre: usuario.nombre,
             apellidos: usuario.apellidos,

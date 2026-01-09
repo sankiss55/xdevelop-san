@@ -33,9 +33,8 @@ export async function POST(params: NextRequest): Promise<NextResponse> {
       genero,
       anio_publicacion,
       id_user,
-    }: Libro & { id_user: number } = await params.json();
+    } = await params.json();
 
-    // Validación básica
     if (
       !titulo ||
       !autor ||
@@ -48,8 +47,7 @@ export async function POST(params: NextRequest): Promise<NextResponse> {
         {
           success: false,
           message: "Faltan campos obligatorios",
-        },
-        { status: 400 }
+        }
       );
     }
 

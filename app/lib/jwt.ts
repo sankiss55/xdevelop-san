@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 const JWT_SECRET = process.env.JWT_KEY_SECRET as string;
 
 export interface TokenJWT {
+  id: number;
   matricula: string;
   nombre: string;
   apellidos: string;

@@ -61,7 +61,6 @@ export default function DashboardAdministradorPage() {
         router.push('/');
         return;
       }
-
       setUsuario(user);
       setLoading(false);
     };
