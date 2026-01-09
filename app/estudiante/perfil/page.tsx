@@ -25,8 +25,8 @@ export default function PerfilEstudiantePage() {
     verificarYCargarUsuario();
   }, [router]);
 
-  const verificarYCargarUsuario = () => {
-    const { autenticado, usuario: user } = verificacion();
+  const verificarYCargarUsuario = async () => {
+    const { autenticado, usuario: user } = await verificacion();
 
     if (!autenticado) {
       alert('Sesión expirada. Por favor inicia sesión nuevamente.');
